@@ -1,20 +1,29 @@
 public class MainChallange {
     public static void main(String[] args) {
 
-        calculateScore(true, 800, 5, 100);
+        boolean gameOver = true;
+        int score = 800;
+        int levelCompleted = 5;
+        int bonus = 100;
 
-        calculateScore(true, 10000, 8, 200);
+        int highScore = calculateScore(true, 800, 5, 100);
+
+        score = 10000;
+        levelCompleted = 8;
+        bonus = 200;
+
+        calculateScore(gameOver, score, levelCompleted, bonus);
     }
 
-    public static void calculateScore(boolean gameOver, int score, int levelCompleted, int bonus) {
+    public static int calculateScore(boolean gameOver, int score, int levelCompleted, int bonus) {
 
         int finalScore = score;
 
         if (gameOver) /*best practice is (gameOver) cause (gameOver===true is always true)*/ {
             finalScore += (levelCompleted * bonus);
             finalScore += 1000;
-            System.out.println("Your Final score was " + finalScore);
         }
+        return finalScore;
     }
 }
         //FIRST WAY
@@ -42,7 +51,4 @@ public class MainChallange {
 //                finalScore += (levelCompleted * bonus);
 //                System.out.println("Your Final score was " + finalScore);
 //            }
-
-
-    //MORE FUNCTIONAL WAY USING METHODS(outside of the first methods)
 
