@@ -9,7 +9,7 @@ public class WelcomePage {
 
         welcomeLabel.setBounds(0,0,200,35);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
-        welcomeLabel.setText("Welcome " + userID);
+        welcomeLabel.setText("Welcome " + userID.toUpperCase());
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
         welcomeLabel.setVerticalAlignment(JLabel.CENTER);
 
