@@ -50,6 +50,8 @@ public class LoginPage implements ActionListener {
         frame.add(resetButton);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(420,420);
+        frame.getContentPane().setBackground(new Color(52,53,65,80));
+        frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setVisible(true);
     }
