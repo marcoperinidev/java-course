@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,8 +33,8 @@ public class LoginPage implements ActionListener {
         userIDLabel.setBounds(50,100,75,25);
         userPasswordLabel.setBounds(50,150,75,25);
 
-        messageLabel.setBounds(125,250,250,35);
-        messageLabel.setFont(new Font(null, Font.ITALIC, 25));
+        messageLabel.setBounds(100,250,350,30);
+        messageLabel.setFont(new Font(null, Font.ITALIC, 20));
 
         userIDField.setBounds(125,100,200,25);
         userPasswordField.setBounds(125,150,200,25);
@@ -41,9 +43,11 @@ public class LoginPage implements ActionListener {
         loginButton.setBackground(new Color(24,115,235));
         loginButton.setFocusable(false);
         loginButton.addActionListener(this);
+        loginButton.setEnabled(false);
 
         resetButton.setBounds(225,200,100,25);
         resetButton.setFocusable(false);
+        resetButton.addActionListener(this);
 
         JPanel contentPane = new JPanel();
         contentPane.setBackground(new Color(52,53,65,100));
@@ -64,6 +68,48 @@ public class LoginPage implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
 
+
+        //listener userID and PasswordField
+        userIDField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+        });
+        userPasswordField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateButtonState();
+            }
+        });
+        updateButtonState();
+    }
+
+    //check updateButtonState
+    private void updateButtonState() {
+        if(userIDField.getText().isEmpty() || userPasswordField.getPassword().length == 0) {
+            loginButton.setEnabled(false);
+        } else {
+            loginButton.setEnabled(true);
+        }
+
+
         userIDField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode()== KeyEvent.VK_ENTER) {
@@ -79,12 +125,16 @@ public class LoginPage implements ActionListener {
                 }
             }
         });
+
+        userIDField.addActionListener(this);
+        userPasswordField.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == resetButton) {
             userIDField.setText("");
             userPasswordField.setText("");
+            messageLabel.setText("");
         }
 
         if(e.getSource() == loginButton) {
@@ -96,6 +146,12 @@ public class LoginPage implements ActionListener {
         String userID = userIDField.getText();
         String password = String.valueOf(userPasswordField.getPassword());
 
+        if(userID.isEmpty() || password.isEmpty()) {
+            messageLabel.setForeground(Color.red);
+            messageLabel.setText("Fill in all the fields");
+            return;
+        }
+
         if(loginInfo.containsKey(userID)) {
             if(loginInfo.get(userID).equals(password)) {
                 messageLabel.setForeground(Color.green);
@@ -105,12 +161,13 @@ public class LoginPage implements ActionListener {
             }
             else {
                 messageLabel.setForeground(Color.red);
-                messageLabel.setText("Wrong password");
+                messageLabel.setText("User or password wrong");
             }
         }
         else {
             messageLabel.setForeground(Color.red);
-            messageLabel.setText("Wrong userID");
+            messageLabel.setText("User or password wrong");
         }
+
     }
 }
