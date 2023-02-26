@@ -40,7 +40,7 @@ public class LoginPage implements ActionListener {
         userPasswordField.setBounds(125,150,200,25);
 
         loginButton.setBounds(125,200,100,25);
-        loginButton.setBackground(new Color(24,115,235));
+        loginButton.setBackground(new Color(14, 92, 187));
         loginButton.setFocusable(false);
         loginButton.addActionListener(this);
         loginButton.setEnabled(false);
@@ -70,44 +70,30 @@ public class LoginPage implements ActionListener {
 
 
         //listener userID and PasswordField
-        userIDField.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener myDocumentListener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateButtonState();
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 updateButtonState();
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 updateButtonState();
             }
-        });
-        userPasswordField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateButtonState();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateButtonState();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateButtonState();
-            }
-        });
-        updateButtonState();
+        };
+        userIDField.getDocument().addDocumentListener(myDocumentListener);
+        userPasswordField.getDocument().addDocumentListener(myDocumentListener);
+
     }
 
     //check updateButtonState
     private void updateButtonState() {
-        if(userIDField.getText().isEmpty() || userPasswordField.getPassword().length == 0) {
-            loginButton.setEnabled(false);
-        } else {
-            loginButton.setEnabled(true);
-        }
+        loginButton.setEnabled(!userIDField.getText().isEmpty() && userPasswordField.getPassword().length != 0);
 
 
         userIDField.addKeyListener(new KeyAdapter() {
@@ -168,6 +154,5 @@ public class LoginPage implements ActionListener {
             messageLabel.setForeground(Color.red);
             messageLabel.setText("User or password wrong");
         }
-
     }
 }
